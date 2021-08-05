@@ -1,0 +1,182 @@
+crear ususario
+db.createUser([
+  user: 'italo'{
+    ,
+  pwd: '123],,
+  age: 30
+},
+    ,
+  pwd: '123],,
+  age: 30
+},
+  roles: ['readWrite', 'dbAdmin']
+});
+
+//colección de datos -> se crean tablas
+db.clientes.insert({
+    firstName: 'Luis',
+    lastName : 'Reyes'
+})
+
+//multiples insert->arreglo de objetos
+db.clientes.insert([
+    {
+        firstName: 'Luis'
+        lastName : 'Reyes'
+    },
+    {
+        firstName: 'Italo'
+        lastName : 'Ramirez'
+    },
+    {
+        firstName: 'Edy'
+        lastName : 'Herrera'
+    }
+])
+
+//find data-> show all
+db.clientes.find();
+
+//find for id and->objectId()
+db.clientes.find(_id: objectId'id');
+
+//add field $set -> modificador que agrega un campo
+db.clientes.update(
+    { lastName: 'Carlos'}
+    { 
+        $set: {age: 45}
+    }
+)
+
+//find with parameters
+db.clientes.find({ firstName: 'Italo'});
+
+//update
+db.clientes.update(
+    { lastName: 'Reyes'},
+    {
+        firstName: 'Carlos',
+        gender: 'male'
+    }
+)
+
+//increment -> $inc
+db.clientes.update (
+    {lastName: 'Reyes'},
+    { 
+        $inc: {age: 5}
+    }
+)
+
+//decrement -> delete field->$unset
+db.clientes.update (
+    {lastName: 'Reyes'},
+    { 
+        $unset: {age: 1}
+    }
+)
+
+//decrement -> decrement ->$inc
+db.clientes.update (
+    {lastName: 'Reyes'},
+    { 
+        $inc: {age: -1}
+    }
+)
+
+
+//update if no exist then add
+db.clientes.update (
+    {lastName: 'Reyes'},
+    { 
+        firstName: 'Carlos Andres',
+        lastName: 'Reyes',
+        age: 45
+    }, 
+    {upsert: true}
+)
+
+//rename data-> field
+db.clientes.update (
+    {lastName: 'Reyes'},
+    $rename: { 
+      'firstName: 'primerNombre'
+    }
+)
+
+//delete field
+db.clientes.remove(
+    {primerNombre: 'Carlos Andres'}
+)
+
+//delete field justOne-> delete one field
+db.clientes.remove(
+    {primerNombre: 'Carlos Andres'}
+    {justOne: true}
+)
+
+//search a person
+db.clientes.find (
+    {$or: [{ firstName: 'Carlos Camilo'}, {firsName: 'Edy'}]}
+)
+
+//clients > age:40 (grater than)=> mayor que gt
+db.clientes.insert ([
+    {
+        name: 'Marcela',
+        age: 30
+    },
+    {
+        name: 'Felipe',
+        age: 2
+    },
+    {
+        name: 'Gabriel',
+        age: 11
+    },
+    {
+        name: 'Italo',
+        age: 33
+    },
+])
+
+db.clientes.find({age: {$gt: 30} })
+
+//less than
+db.clientes.find({age: {$lt: 12} })
+
+//grater than less than
+db.clientes.find({age: {$gt: 30, $lt: 31} })
+
+//search anid
+db.clientes.insert (
+    {
+        name: 'zack',
+        address: {
+            city: 'London'
+        }
+    }
+)
+db.clientes.find(
+    {'address.city': 'London'
+)
+
+//exp reg
+db.clientes.find({name: {$regex: 'ela'}})
+
+//order 1->asc -1->desc
+db.cleintes.find().sort({lastName: 1})
+
+//count 
+db.clientes.count() 
+
+//mix
+db.clientes.find({age: {$gt: 1}}).count()
+
+//limit
+db.clientes.find().limit(3)
+
+//order dec -1
+db.clientes.find().sort({name: -1})
+//forEach for name
+db.clientes.find().forEach(function (doc) { print("Nombres: "doc.name)})
